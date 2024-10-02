@@ -1,0 +1,30 @@
+:root {
+    font-size: 62.5%; /* 1rem = 10px */
+    --color-primary: hsl(0, 100%, 50%);
+    --color-secondary: hsl(0, 0%, 100%);
+    --color-font: hsla(0, 0%, 100%, 0.902);
+    --color-shadow: hsl(0, 0%, 100%);
+}
+
+
+.container {
+    
+    font-size: 5em;
+    margin-inline: auto;
+    padding-inline: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.form-example{
+    font-size: 10px;
+    margin-inline: auto;
+    padding-inline: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
