@@ -4,8 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="container">
+        <h1>Instant Weather</h1>
+   </div>
+    <form action="" method="get" class="form-example">
+        <div class="form-example">
+          <label for="name">Saisissez un code postal </label>
+          <br>
+          
+          <input type="number" placeholder="Entrer un code postal " min="10000" max="99999" style="width: 200px;"/>
+        </div>
+        <div class="form-example">
+          <label for="city-select" ></label>
+          <select id="monselect">
+            <option value="valeur1"selected>Valeur 1</option>
+            <option value="valeur2">Valeur 2</option>
+            <option value="valeur3">Valeur 3</option>
+          </select>
+        </div>
+        <div class="form-example">
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+
+   
+        
 </body>
 </html>
