@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,28 +14,23 @@
 <body>
     <div class="container">
         <h1>Instant Weather</h1>
-   </div>
+    </div>
+    
     <form action="" method="get" class="form-example">
+        <!-- Saisie de code postal -->
         <div class="form-example">
-          <label for="name">Saisissez un code postal </label>
-          <br>
-          
-          <input type="number" placeholder="Entrer un code postal " min="10000" max="99999" style="width: 200px;"/>
+            <label for="postal-code">Saisissez un code postal</label>
+            <br>
+            <input type="texte" id="postal-code" name="postal-code" placeholder="Entrer un code postal" min="01000" max="99999" required style="width: 200px;"/>
         </div>
-        <div class="form-example">
-          <label for="city-select" ></label>
-          <select id="monselect">
-            <option value="valeur1"selected>Valeur 1</option>
-            <option value="valeur2">Valeur 2</option>
-            <option value="valeur3">Valeur 3</option>
-          </select>
-        </div>
-        <div class="form-example">
-          <input type="submit" value="Submit" />
-        </div>
-      </form>
 
-   
-        
+        <!-- Sélection du département -->
+        <div class="villes">
+            <label for="ville-select">Sélectionnez un département</label>
+            <br>
+            <select id="ville-select" name="ville">
+            </select>
+        </div>
+    </form>
 </body>
 </html>
