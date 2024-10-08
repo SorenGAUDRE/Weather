@@ -12,7 +12,7 @@
         <p>Votre météo en un instant avec Instant Weather</p>
         
         <!-- Formulaire du code postal -->
-        <input type="text" id="postal-code" name="postal-code" placeholder="Entrer un code postal" min="01000" max="99999" required style="width: 200px;" maxlength="5"/>
+        <input type="text" id="postal-code" name="postal-code" placeholder="Entrer un code postal"  maxlength="5"/>
         
         <!-- Menu déroulant pour choisir la commune -->
         <select id="menuDeroulant">
@@ -20,14 +20,15 @@
         </select>
 
         <!-- Nouveau bouton "Validez" sous le menu déroulant -->
-        <button id="valider-btn">Validez</button>
+        <button id="valider-btn">Valider</button>
+        <br>
         
         <!-- Bloc pour les statistiques météorologiques -->
-        <div class="stats-container">
+        <div class="stats-container" id="stats">
             <p><strong>Température minimale :</strong> <span id="temp-min"></span></p>
             <p><strong>Température maximale :</strong> <span id="temp-max"></span></p>
             <p><strong>Probabilité de pluie :</strong> <span id="rain-probability"></span></p>
-            <p><strong>Ensoleillement journalier :</strong> <span id="sunshine"></span></p>
+            <p><strong>Ensoleillement :</strong> <span id="sunshine"></span></p>
         </div>
 
         <!-- Bouton de nouvelle recherche -->
