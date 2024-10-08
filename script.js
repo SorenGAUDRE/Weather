@@ -1,15 +1,22 @@
 const token = 'cf7c01dc60d6008455c0c8715a6337e049478ae675a65ab7287e7bf76b1dd5d7'
+const codePostalInput = document.getElementById("postal-code");
+const menuDeroulant = document.getElementById("menuDeroulant");
+const regexCodePostal = /^\d{5}$/;
 
 // Fonction pour récupérer les communes en fonction d'un code postal
 async function getCommunesByPostalCode(codePostal) {
     let code_return = 0 ;
     const url = `https://geo.api.gouv.fr/communes?codePostal=${codePostal}`;
+    let tab = []
     try {
         const response = await fetch(url);
         const data = await response.json();
             console.log("Communes:", data); // Affiche les communes dans la console
+            tab = data.map(commune => commune.nom);
+        console.log("Noms des communes:", tab);
+        
+        return tab; // Retourne le tableau des noms)
             
-            return data[0].code;
         
         }
         catch{(error => console.error("Erreur lors de la récupération des communes:", error))};      
@@ -34,24 +41,8 @@ async function getTemp(code) {
     
 }
  
-
-async function main(){
-    const code =  await getCommunesByPostalCode('14610')
-
-    let tab = await getTemp(code)
-    console.log(tab)
-
-}
-
-main()
-
-const codePostalInput = document.getElementById("postal-code");
-const menuDeroulant = document.getElementById("menuDeroulant");
-const regexCodePostal = /^\d{5}$/;
-
-
 // Tableau vide pour les valeurs (remplis plus tard avec des valeurs)
-let valeursCommune = ["Commune 1", "Commune 2", "Commune 3"]; // Exemples fictifs
+let valeursCommune = []; // Exemples fictifs
 // Fonction pour mettre à jour les options du menu déroulant <select>
 function mettreAJourMenu(valeurs) {
     // Efface les anciennes options
@@ -89,10 +80,13 @@ codePostalInput.addEventListener('keydown', function(event) {
 });
 
 
-codePostalInput.addEventListener("input", function() {
+codePostalInput.addEventListener("input", async function() {
     const codePostal = codePostalInput.value;
     // Si l'input correspond à un code postal valide
     if (regexCodePostal.test(codePostal)) {
+        const codes = await getCommunesByPostalCode(codePostal)
+        console.log(codes)
+        valeursCommune = codes ;
         menuDeroulant.style.display = "block";
         // Mettre à jour le menu déroulant avec les options (actuellement vide)
         mettreAJourMenu(valeursCommune);  // Utilise les données du tableau
