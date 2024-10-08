@@ -39,9 +39,25 @@ async function main(){
 
 main()
 
-  
-    
+document.addEventListener("DOMContentLoaded", function() {
+    const postalCodeInput = document.getElementById('postal-code');
+    const communeForm = document.getElementById('commune-form');
 
+    // Bloquer l'entrée des lettres et des caractères spéciaux
+    postalCodeInput.addEventListener('keydown', function(event) {
+        const key = event.key;
+
+        // Autoriser uniquement les touches numériques, Backspace, Tab, et les flèches
+        if (!/^[0-9]$/.test(key) &&
+            key !== 'Backspace' &&
+            key !== 'Tab' &&
+            key !== 'ArrowLeft' &&
+            key !== 'ArrowRight') {
+            event.preventDefault(); // Empêcher l'entrée de caractères non autorisés
+        }
+    });
+
+});
 
     
 

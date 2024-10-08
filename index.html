@@ -10,7 +10,21 @@
     <div class="container">
         <h1>Instant Weather</h1>
         <p>Votre météo en un instant avec Instant Weather</p>
-        <input type="texte" id="postal-code" name="postal-code" placeholder="Entrer un code postal" min="01000" max="99999" required style="width: 200px;"/>
+        <label for="postal-code">Saisissez un code postal</label>
+        <br>
+        <input type="texte" id="postal-code" name="postal-code" placeholder="Entrer un code postal"/>
+        <div id="commune-form" style="display: none;">
+            <label for="commune">Choisissez votre commune</label>
+            <br>
+            <select id="commune" name="commune">
+                <option value="">Sélectionner une commune</option>
+                <option value="commune1">Commune 1</option>
+                <option value="commune2">Commune 2</option>
+                <option value="commune3">Commune 3</option>
+                <!-- Ajouter des options supplémentaires ici -->
+            </select>
+        </div>
     </div>
 </body>
+<script src="script.js"></script>
 </html>
