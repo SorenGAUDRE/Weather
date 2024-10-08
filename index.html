@@ -10,10 +10,28 @@
     <div class="container">
         <h1>Instant Weather</h1>
         <p>Votre météo en un instant avec Instant Weather</p>
+        
+        <!-- Formulaire du code postal -->
         <input type="text" id="postal-code" name="postal-code" placeholder="Entrer un code postal" min="01000" max="99999" required style="width: 200px;" maxlength="5"/>
+        
+        <!-- Menu déroulant pour choisir la commune -->
         <select id="menuDeroulant">
             <option disabled selected>Choisissez une option</option>
         </select>
+
+        <!-- Nouveau bouton "Validez" sous le menu déroulant -->
+        <button id="valider-btn">Validez</button>
+        
+        <!-- Bloc pour les statistiques météorologiques -->
+        <div class="stats-container">
+            <p><strong>Température minimale :</strong> <span id="temp-min"></span></p>
+            <p><strong>Température maximale :</strong> <span id="temp-max"></span></p>
+            <p><strong>Probabilité de pluie :</strong> <span id="rain-probability"></span></p>
+            <p><strong>Ensoleillement journalier :</strong> <span id="sunshine"></span></p>
+        </div>
+
+        <!-- Bouton de nouvelle recherche -->
+        <button id="nv_rech">Nouvelle recherche</button>
     </div>
 </body>
 <script src="script.js"></script>
