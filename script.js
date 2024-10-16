@@ -11,6 +11,13 @@ const sunshine = document.getElementById("sunshine");
 const stats = document.getElementById("stats");
 const nvRech = document.getElementById("nv_rech");
 const checkboxes = document.querySelector('.checkboxes');
+const latitude = document.getElementById("latitude");
+const longitude = document.getElementById("longitude");
+const cumulPluie = document.getElementById("cumul-pluie");
+const vent = document.getElementById("vent");
+const direcVent = document.getElementById("direction-vent");
+const ville = document.getElementById("ville");
+
 
 
 // Fonction pour récupérer les communes en fonction d'un code postal
@@ -45,32 +52,66 @@ async function getCommunesByName(name) {
         
 }
 
-async function getTemp(code) {
+async function getMeteoData(code) {
         
-    const urlmeteo = `https://api.meteo-concept.com/api/forecast/daily/0?token=cf7c01dc60d6008455c0c8715a6337e049478ae675a65ab7287e7bf76b1dd5d7&insee=${code}`;
+    const urlmeteo = `https://api.meteo-concept.com/api/forecast/daily/0?token=64b66c06b10270ff2004ebfc2067da6914cdba5d49463ff0b4195c4afc3237c5&insee=${code}`;
     try {
         const response = await fetch(urlmeteo);
         const data = await response.json();
-        console.log('______________________________________')
-            console.log("Temps:", data); // Affiche les communes dans la console
-            tmin.innerText = data.forecast.tmin + "°C";
-            tmax.innerText = data.forecast.tmax + "°C";
-            rainProba.innerText = data.forecast.probarain + "%" ;
-            sunshine.innerText = data.forecast.sun_hours + "h";
-    
-        }
+        return data.forecast;
+        }   
         
         catch{(error => console.error("Erreur lors de la récupération des temps:", error))}
 
     
 }
 
-async function getJours(valeur) {
+async function afficherInformations() {
+    let selectedCommune = menuDeroulant.value;
+    if (!selectedCommune) {
+        alert("Veuillez sélectionner une commune.");
+        return;
+    }
+
+    let insee = await getCommunesByName(selectedCommune);
+    let meteoData = await getMeteoData(insee);
+
+    tmin.innerText = meteoData.tmin + "°C";
+    tmax.innerText = meteoData.tmax + "°C";
+    rainProba.innerText = meteoData.probarain + "%";
+    sunshine.innerText = meteoData.sun_hours + "h";
+
+    let extraInfo = "";
+    if (latitude.checked) {
+        extraInfo += `<p><strong>Latitude :</strong> ${meteoData.latitude} </p>`;
+    }
+    if (longitude.checked) {
+        extraInfo += `<p><strong>Longitude :</strong> ${meteoData.longitude} </p>`;
+    }
+    if (cumulPluie.checked) {
+        extraInfo += `<p><strong>Cumul de pluie :</strong> ${meteoData.rr10} mm</p>`;
+    }
+    if (vent.checked) {
+        extraInfo += `<p><strong>Vent moyen :</strong> ${meteoData.wind10m} km/h</p>`;
+    }
+    if (direcVent.checked) {
+        extraInfo += `<p><strong>Direction du vent :</strong> ${meteoData.dirwind10m}°</p>`;
+    }
+
+    //reinitialiser pour ne pas que les ExtraInfo s'affiche plusieurs fois
+    stats.innerHTML = `
+        <p><strong>Température minimale :</strong> <span id="temp-min">${meteoData.tmin}°C</span></p>
+        <p><strong>Température maximale :</strong> <span id="temp-max">${meteoData.tmax}°C</span></p>
+        <p><strong>Probabilité de pluie :</strong> <span id="rain-probability">${meteoData.probarain}%</span></p>
+        <p><strong>Ensoleillement :</strong> <span id="sunshine">${meteoData.sun_hours}h</span></p>
+    `;
+
+    stats.innerHTML += extraInfo;
+    stats.style.display = "block";
 }
 
+
  
-// Tableau vide pour les valeurs (remplis plus tard avec des valeurs)
-let valeursCommune = []; // Exemples fictifs
 // Fonction pour mettre à jour les options du menu déroulant <select>
 function mettreAJourMenu(valeurs) {
     // Efface les anciennes options
@@ -149,10 +190,16 @@ validerBtn.addEventListener("click",async function() {
         alert("Veuillez choisir une option");
     }
     else{
+        ville.innerText = menuDeroulant.value;
+        ville.style.display="block";
         stats.style.display="block";
         nvRech.style.display="block";
-        let insee =  await getCommunesByName(menuDeroulant.options[menuDeroulant.selectedIndex].value);
-        getTemp(insee)
+        validerBtn.style.display="none";
+        menuDeroulant.style.display = "none";
+        nbJours.style.display = "none";
+        checkboxes.style.display = "none";
+        codePostalInput.style.display="none";
+        await afficherInformations();
     }
 })
 
@@ -163,6 +210,14 @@ nvRech.addEventListener("click", async function(){
     validerBtn.style.display="none";
     codePostalInput.value="";
     nbJours.style.display = "none";
+    tmin.innerText = "";
+    tmax.innerText = "";
+    rainProba.innerText = "";
+    sunshine.innerText = "";
+    ville.innerText = ""; 
+    ville.style.display="none";
+    codePostalInput.style.display="block";
+    codePostalInput.style.margin = "20px auto";
 })
 
 
