@@ -15,9 +15,21 @@
         <input type="text" id="postal-code" name="postal-code" placeholder="Entrer un code postal"  maxlength="5"/>
         
         <!-- Menu déroulant pour choisir la commune -->
-        <select id="menuDeroulant">
-            <option disabled selected>Choisissez une option</option>
-        </select>
+        <div class="menu-container">
+            <select id="menuDeroulant">
+                <option disabled selected>Choisissez une option</option>
+            </select>
+            <select id="nbJours">
+                <option disabled selected>Choisissez un nombre de jours</option>
+            </select>
+        </div>
+        <div class="checkboxes">
+            <label><input type="checkbox" id="latitude"> Latitude décimale de la commune</label><br>
+            <label><input type="checkbox" id="longitude"> Longitude décimale de la commune</label><br>
+            <label><input type="checkbox" id="cumul-pluie"> Cumul de pluie sur la journée en mm</label><br>
+            <label><input type="checkbox" id="vent"> Vent moyen à 10 mètres en km/h</label><br>
+            <label><input type="checkbox" id="direction-vent"> Direction du vent en degrés (0 à 360°)</label><br>
+        </div>
 
         <!-- Nouveau bouton "Validez" sous le menu déroulant -->
         <button id="valider-btn">Valider</button>

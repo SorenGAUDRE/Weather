@@ -1,6 +1,7 @@
 const token = 'cf7c01dc60d6008455c0c8715a6337e049478ae675a65ab7287e7bf76b1dd5d7'
 const codePostalInput = document.getElementById("postal-code");
 const menuDeroulant = document.getElementById("menuDeroulant");
+const nbJours = document.getElementById("nbJours");
 const regexCodePostal = /^\d{5}$/;
 const validerBtn = document.getElementById("valider-btn");
 const tmin = document.getElementById("temp-min");
@@ -9,6 +10,7 @@ const rainProba = document.getElementById("rain-probability");
 const sunshine = document.getElementById("sunshine");
 const stats = document.getElementById("stats");
 const nvRech = document.getElementById("nv_rech");
+const checkboxes = document.querySelector('.checkboxes');
 
 
 // Fonction pour récupérer les communes en fonction d'un code postal
@@ -63,6 +65,9 @@ async function getTemp(code) {
     
 }
 
+async function getJours(valeur) {
+}
+
  
 // Tableau vide pour les valeurs (remplis plus tard avec des valeurs)
 let valeursCommune = []; // Exemples fictifs
@@ -85,6 +90,18 @@ function mettreAJourMenu(valeurs) {
             option.value = valeur; // La valeur de l'option
             menuDeroulant.appendChild(option);
         });
+    }
+}
+
+function mettreAJournbJours() {
+    // Efface les anciennes options
+    nbJours.innerHTML = '<option disabled selected>Choisissez un nombre de jours</option>';
+
+    // Si le tableau est vide, ajoute une option "Aucune option"
+    for( let i=1; i<8; i++){
+        const option = document.createElement("option");
+        option.textContent =  i;
+        nbJours.appendChild(option);
     }
 }
 
@@ -111,14 +128,19 @@ codePostalInput.addEventListener("input", async function() {
         console.log(codes)
         valeursCommune = codes ;
         menuDeroulant.style.display = "block";
+        nbJours.style.display = "block";
         validerBtn.style.display="block";
+        checkboxes.style.display = "block";
         // Mettre à jour le menu déroulant avec les options (actuellement vide)
-        mettreAJourMenu(valeursCommune);  // Utilise les données du tableau
+        mettreAJourMenu(valeursCommune);  // Utilise les données du tableau 
+        mettreAJournbJours();
     } else {
         menuDeroulant.style.display = "none";
         validerBtn.style.display="none";
         stats.style.display="none";
         nvRech.style.display="none";
+        nbJours.style.display = "none";
+        checkboxes.style.display = "none";
     }
 });
 
@@ -129,7 +151,6 @@ validerBtn.addEventListener("click",async function() {
     else{
         stats.style.display="block";
         nvRech.style.display="block";
-        console.log(menuDeroulant.options[menuDeroulant.selectedIndex].value)
         let insee =  await getCommunesByName(menuDeroulant.options[menuDeroulant.selectedIndex].value);
         getTemp(insee)
     }
@@ -141,6 +162,7 @@ nvRech.addEventListener("click", async function(){
     nvRech.style.display="none";
     validerBtn.style.display="none";
     codePostalInput.value="";
+    nbJours.style.display = "none";
 })
 
 

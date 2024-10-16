@@ -53,6 +53,43 @@ input[type="text"]::placeholder {
     margin-bottom: 5%;
 }
 
+#nbJours {
+    display: none;
+    padding: 10px;
+    font-size: 1rem;
+    width: 300px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.checkboxes {
+    display: none; /* Cacher les cases à cocher par défaut */
+    text-align: left;
+    margin: 20px auto;
+    max-width: 300px;
+}
+
+.checkboxes label {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.checkboxes label input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Agrandit la case à cocher */
+    accent-color: #007BFF; /* Couleur de la case à cocher */
+}
+
+
 #valider-btn {
     display: none;
     padding: 10px 20px;
