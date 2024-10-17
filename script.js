@@ -115,7 +115,7 @@ async function afficherInformations() {
 // Fonction pour mettre à jour les options du menu déroulant <select>
 function mettreAJourMenu(valeurs) {
     // Efface les anciennes options
-    menuDeroulant.innerHTML = '<option disabled selected>Choisissez une option</option>';
+    menuDeroulant.innerHTML = '<option disabled selected>Choisissez une ville</option>';
 
     // Si le tableau est vide, ajoute une option "Aucune option"
     if (valeurs.length === 0) {
