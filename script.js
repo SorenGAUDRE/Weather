@@ -9,7 +9,7 @@ const tmax = document.getElementById("temp-max");
 const rainProba = document.getElementById("rain-probability");
 const sunshine = document.getElementById("sunshine");
 const nvRech = document.getElementById("nv_rech");
-const checkboxes = document.querySelector('.checkboxes');
+const checkboxes = document.getElementById('checkboxes');
 const latitude = document.getElementById("latitude");
 const longitude = document.getElementById("longitude");
 const cumulPluie = document.getElementById("cumul-pluie");
@@ -17,6 +17,9 @@ const vent = document.getElementById("vent");
 const direcVent = document.getElementById("direction-vent");
 const ville = document.getElementById("ville");
 const forecastContainer = document.getElementById("forecast-container");
+const modal = document.getElementById("myModal");
+const openModalBtn = document.getElementById("openModalBtn");
+const closeModalBtn = document.getElementsByClassName("close")[0];
 
 
 class WeatherCard {
@@ -207,11 +210,14 @@ codePostalInput.addEventListener("input", async function() {
         nbJours.style.display = "block";
         validerBtn.style.display="block";
         checkboxes.style.display = "block";
+        openModalBtn.style.display="block";
+        openModalBtn.style.margin = "20px auto";
         // Mettre à jour le menu déroulant avec les options (actuellement vide)
         mettreAJourMenu(valeursCommune);  // Utilise les données du tableau 
         mettreAJournbJours();
     } else {
         menuDeroulant.style.display = "none";
+        openModalBtn.style.display="none";
         validerBtn.style.display="none";
         nvRech.style.display="none";
         nbJours.style.display = "none";
@@ -231,6 +237,7 @@ validerBtn.addEventListener("click",async function() {
         menuDeroulant.style.display = "none";
         nbJours.style.display = "none";
         checkboxes.style.display = "none";
+        openModalBtn.style.display="none";
         codePostalInput.style.display="none";
         forecastContainer.style.display="flex";
         await afficherInformations();
@@ -250,8 +257,31 @@ nvRech.addEventListener("click", async function(){
     forecastContainer.style.display="none";
 })
 
+// Ouvrir la modal quand l'utilisateur clique sur "Settings"
+openModalBtn.addEventListener("click", function() {
+    modal.style.display = "block";
+});
 
+// Fermer la modal quand l'utilisateur clique sur le bouton "X"
+closeModalBtn.addEventListener("click", function() {
+    modal.style.display = "none";
+});
 
+// Fermer la modal quand l'utilisateur clique en dehors de la modal
+window.addEventListener("click", function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+// Empêcher le rechargement de la page lors de la soumission du formulaire
+checkboxes.addEventListener("submit", function(event) {
+    event.preventDefault(); // Empêcher le rafraîchissement de la page
+
+    
+    // Fermer la modal après la soumission si vous le souhaitez
+    modal.style.display = "none";
+});
   
     
 
