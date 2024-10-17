@@ -20,21 +20,30 @@ const forecastContainer = document.getElementById("forecast-container");
 
 
 class WeatherCard {
-    constructor(day, tmin, tmax, rainProba, sunshine, extraInfo = '') {
+    constructor(day, tmin, tmax, rainProba, weatherCode, sunshine, extraInfo = '') {
         this.day = day;
         this.tmin = tmin;
         this.tmax = tmax;
         this.rainProba = rainProba;
         this.sunshine = sunshine;
+        this.weatherCode = weatherCode;
         this.extraInfo = extraInfo;
+    }
+
+    getWeatherIcon() {
+        const iconFile = iconMap[this.weatherCode] || 'day.svg';  // Icône par défaut: journée ensoleillée
+        return `<img src="icons/${iconFile}" alt="Weather Icon" class="weather-icon">`;
     }
 
     createCard() {
         const card = document.createElement('div');
         card.className = 'weather-card';
+
+        const weatherIcon = this.getWeatherIcon();
         
         card.innerHTML = `
             <h3>${this.day}</h3>
+            <div>${weatherIcon}</div> 
             <p><strong>Température minimale :</strong> ${this.tmin}°C</p>
             <p><strong>Température maximale :</strong> ${this.tmax}°C</p>
             <p><strong>Probabilité de pluie :</strong> ${this.rainProba}%</p>
@@ -129,7 +138,7 @@ async function afficherInformations() {
         const date = new Date();
         date.setDate(date.getDate()+j);
         const options = { weekday: 'long', year: 'numeric', month:'long', day: 'numeric'};
-        const weatherCard = new WeatherCard(date.toLocaleDateString('fr-FR',options), meteoData.tmin, meteoData.tmax, meteoData.probarain, meteoData.sun_hours, extraInfo);
+        const weatherCard = new WeatherCard(date.toLocaleDateString('fr-FR',options), meteoData.tmin, meteoData.tmax, meteoData.probarain,meteoData.weather, meteoData.sun_hours, extraInfo);
         forecastContainer.appendChild(weatherCard.createCard());
     }
 
@@ -223,6 +232,7 @@ validerBtn.addEventListener("click",async function() {
         nbJours.style.display = "none";
         checkboxes.style.display = "none";
         codePostalInput.style.display="none";
+        forecastContainer.style.display="flex";
         await afficherInformations();
     }
 })

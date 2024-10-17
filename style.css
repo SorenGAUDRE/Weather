@@ -37,7 +37,7 @@ h1 {
 }
 
 .weather-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #007BFF;
     margin-bottom: 10px;
 }
@@ -47,7 +47,12 @@ h1 {
     font-size: 1rem;
 }
 
-
+.weather-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
+}
 
 input[type="text"] {
     text-align: center;
