@@ -8,7 +8,6 @@ const tmin = document.getElementById("temp-min");
 const tmax = document.getElementById("temp-max");
 const rainProba = document.getElementById("rain-probability");
 const sunshine = document.getElementById("sunshine");
-const stats = document.getElementById("stats");
 const nvRech = document.getElementById("nv_rech");
 const checkboxes = document.querySelector('.checkboxes');
 const latitude = document.getElementById("latitude");
@@ -17,6 +16,34 @@ const cumulPluie = document.getElementById("cumul-pluie");
 const vent = document.getElementById("vent");
 const direcVent = document.getElementById("direction-vent");
 const ville = document.getElementById("ville");
+const forecastContainer = document.getElementById("forecast-container");
+
+
+class WeatherCard {
+    constructor(day, tmin, tmax, rainProba, sunshine, extraInfo = '') {
+        this.day = day;
+        this.tmin = tmin;
+        this.tmax = tmax;
+        this.rainProba = rainProba;
+        this.sunshine = sunshine;
+        this.extraInfo = extraInfo;
+    }
+
+    createCard() {
+        const card = document.createElement('div');
+        card.className = 'weather-card';
+        
+        card.innerHTML = `
+            <h3>${this.day}</h3>
+            <p><strong>Température minimale :</strong> ${this.tmin}°C</p>
+            <p><strong>Température maximale :</strong> ${this.tmax}°C</p>
+            <p><strong>Probabilité de pluie :</strong> ${this.rainProba}%</p>
+            <p><strong>Ensoleillement :</strong> ${this.sunshine}h</p>
+            ${this.extraInfo}
+        `;
+        return card;
+    }
+}
 
 
 
@@ -52,13 +79,14 @@ async function getCommunesByName(name) {
         
 }
 
-async function getMeteoData(code) {
+async function getMeteoData(code, i) {
         
-    const urlmeteo = `https://api.meteo-concept.com/api/forecast/daily/0?token=64b66c06b10270ff2004ebfc2067da6914cdba5d49463ff0b4195c4afc3237c5&insee=${code}`;
+    const urlmeteo = `https://api.meteo-concept.com/api/forecast/daily?token=cf7c01dc60d6008455c0c8715a6337e049478ae675a65ab7287e7bf76b1dd5d7&insee=${code}`;
     try {
         const response = await fetch(urlmeteo);
         const data = await response.json();
-        return data.forecast;
+        console.log(data)
+        return data.forecast[i];
         }   
         
         catch{(error => console.error("Erreur lors de la récupération des temps:", error))}
@@ -72,43 +100,41 @@ async function afficherInformations() {
         alert("Veuillez sélectionner une commune.");
         return;
     }
+    const insee = await getCommunesByName(selectedCommune);
+    forecastContainer.innerHTML = '';  // Clear previous results
 
-    let insee = await getCommunesByName(selectedCommune);
-    let meteoData = await getMeteoData(insee);
+    const nbJoursValue = nbJours.value;
+    for (let j = 0; j < nbJoursValue; j++) {
+        const meteoData = await getMeteoData(insee, j);
 
-    tmin.innerText = meteoData.tmin + "°C";
-    tmax.innerText = meteoData.tmax + "°C";
-    rainProba.innerText = meteoData.probarain + "%";
-    sunshine.innerText = meteoData.sun_hours + "h";
+        // Gather extra info if checkboxes are selected
+        let extraInfo = '';
+        if (latitude.checked) {
+            extraInfo += `<p><strong>Latitude :</strong> ${meteoData.latitude}</p>`;
+        }
+        if (longitude.checked) {
+            extraInfo += `<p><strong>Longitude :</strong> ${meteoData.longitude}</p>`;
+        }
+        if (cumulPluie.checked) {
+            extraInfo += `<p><strong>Cumul de pluie :</strong> ${meteoData.rr10} mm</p>`;
+        }
+        if (vent.checked) {
+            extraInfo += `<p><strong>Vent moyen :</strong> ${meteoData.wind10m} km/h</p>`;
+        }
+        if (direcVent.checked) {
+            extraInfo += `<p><strong>Direction du vent :</strong> ${meteoData.dirwind10m}°</p>`;
+        }
 
-    let extraInfo = "";
-    if (latitude.checked) {
-        extraInfo += `<p><strong>Latitude :</strong> ${meteoData.latitude} </p>`;
-    }
-    if (longitude.checked) {
-        extraInfo += `<p><strong>Longitude :</strong> ${meteoData.longitude} </p>`;
-    }
-    if (cumulPluie.checked) {
-        extraInfo += `<p><strong>Cumul de pluie :</strong> ${meteoData.rr10} mm</p>`;
-    }
-    if (vent.checked) {
-        extraInfo += `<p><strong>Vent moyen :</strong> ${meteoData.wind10m} km/h</p>`;
-    }
-    if (direcVent.checked) {
-        extraInfo += `<p><strong>Direction du vent :</strong> ${meteoData.dirwind10m}°</p>`;
+        // Create a new WeatherCard instance and add it to the forecast container
+        const date = new Date();
+        date.setDate(date.getDate()+j);
+        const options = { weekday: 'long', year: 'numeric', month:'long', day: 'numeric'};
+        const weatherCard = new WeatherCard(date.toLocaleDateString('fr-FR',options), meteoData.tmin, meteoData.tmax, meteoData.probarain, meteoData.sun_hours, extraInfo);
+        forecastContainer.appendChild(weatherCard.createCard());
     }
 
-    //reinitialiser pour ne pas que les ExtraInfo s'affiche plusieurs fois
-    stats.innerHTML = `
-        <p><strong>Température minimale :</strong> <span id="temp-min">${meteoData.tmin}°C</span></p>
-        <p><strong>Température maximale :</strong> <span id="temp-max">${meteoData.tmax}°C</span></p>
-        <p><strong>Probabilité de pluie :</strong> <span id="rain-probability">${meteoData.probarain}%</span></p>
-        <p><strong>Ensoleillement :</strong> <span id="sunshine">${meteoData.sun_hours}h</span></p>
-    `;
-
-    stats.innerHTML += extraInfo;
-    stats.style.display = "block";
 }
+
 
 
  
@@ -178,7 +204,6 @@ codePostalInput.addEventListener("input", async function() {
     } else {
         menuDeroulant.style.display = "none";
         validerBtn.style.display="none";
-        stats.style.display="none";
         nvRech.style.display="none";
         nbJours.style.display = "none";
         checkboxes.style.display = "none";
@@ -192,7 +217,6 @@ validerBtn.addEventListener("click",async function() {
     else{
         ville.innerText = menuDeroulant.value;
         ville.style.display="block";
-        stats.style.display="block";
         nvRech.style.display="block";
         validerBtn.style.display="none";
         menuDeroulant.style.display = "none";
@@ -205,19 +229,15 @@ validerBtn.addEventListener("click",async function() {
 
 nvRech.addEventListener("click", async function(){
     menuDeroulant.style.display = "none";
-    stats.style.display="none";
     nvRech.style.display="none";
     validerBtn.style.display="none";
     codePostalInput.value="";
     nbJours.style.display = "none";
-    tmin.innerText = "";
-    tmax.innerText = "";
-    rainProba.innerText = "";
-    sunshine.innerText = "";
     ville.innerText = ""; 
     ville.style.display="none";
     codePostalInput.style.display="block";
     codePostalInput.style.margin = "20px auto";
+    forecastContainer.style.display="none";
 })
 
 
