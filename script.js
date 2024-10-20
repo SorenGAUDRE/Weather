@@ -1,7 +1,6 @@
 const token = 'cf7c01dc60d6008455c0c8715a6337e049478ae675a65ab7287e7bf76b1dd5d7'
 const codePostalInput = document.getElementById("postal-code");
 const menuDeroulant = document.getElementById("menuDeroulant");
-const nbJours = document.getElementById("nbJours");
 const regexCodePostal = /^\d{5}$/;
 const validerBtn = document.getElementById("valider-btn");
 const tmin = document.getElementById("temp-min");
@@ -20,6 +19,8 @@ const forecastContainer = document.getElementById("forecast-container");
 const modal = document.getElementById("myModal");
 const openModalBtn = document.getElementById("openModalBtn");
 const closeModalBtn = document.getElementsByClassName("close")[0];
+const nbJoursSlider = document.getElementById("nbJoursSlider"); // Sélection du slider
+const sliderValueDisplay = document.getElementById("sliderValue"); // Pour afficher la valeur sélectionnée
 
 
 class WeatherCard {
@@ -106,20 +107,29 @@ async function getMeteoData(code, i) {
     
 }
 
+
+// Fonction pour mettre à jour la valeur affichée du slider
+function updateSliderValue(value) {
+    sliderValueDisplay.innerText = `Nombre de jours sélectionnés : ${value}`;
+}
+
+// Fonction d'affichage des informations météo
 async function afficherInformations() {
     let selectedCommune = menuDeroulant.value;
     if (!selectedCommune) {
         alert("Veuillez sélectionner une commune.");
         return;
     }
-    const insee = await getCommunesByName(selectedCommune);
-    forecastContainer.innerHTML = '';  // Clear previous results
 
-    const nbJoursValue = nbJours.value;
+    const insee = await getCommunesByName(selectedCommune);
+    forecastContainer.innerHTML = '';  // Vider les résultats précédents
+
+    // Récupération de la valeur du slider
+    const nbJoursValue = parseInt(nbJoursSlider.value, 10);
+
     for (let j = 0; j < nbJoursValue; j++) {
         const meteoData = await getMeteoData(insee, j);
 
-        // Gather extra info if checkboxes are selected
         let extraInfo = '';
         if (latitude.checked) {
             extraInfo += `<p><strong>Latitude :</strong> ${meteoData.latitude}</p>`;
@@ -137,14 +147,13 @@ async function afficherInformations() {
             extraInfo += `<p><strong>Direction du vent :</strong> ${meteoData.dirwind10m}°</p>`;
         }
 
-        // Create a new WeatherCard instance and add it to the forecast container
+        // Crée une nouvelle carte météo et l'ajoute au conteneur
         const date = new Date();
-        date.setDate(date.getDate()+j);
-        const options = { weekday: 'long', year: 'numeric', month:'long', day: 'numeric'};
-        const weatherCard = new WeatherCard(date.toLocaleDateString('fr-FR',options), meteoData.tmin, meteoData.tmax, meteoData.probarain,meteoData.weather, meteoData.sun_hours, extraInfo);
+        date.setDate(date.getDate() + j);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const weatherCard = new WeatherCard(date.toLocaleDateString('fr-FR', options), meteoData.tmin, meteoData.tmax, meteoData.probarain, meteoData.weather, meteoData.sun_hours, extraInfo);
         forecastContainer.appendChild(weatherCard.createCard());
     }
-
 }
 
 
@@ -172,17 +181,6 @@ function mettreAJourMenu(valeurs) {
     }
 }
 
-function mettreAJournbJours() {
-    // Efface les anciennes options
-    nbJours.innerHTML = '<option disabled selected>Choisissez un nombre de jours</option>';
-
-    // Si le tableau est vide, ajoute une option "Aucune option"
-    for( let i=1; i<8; i++){
-        const option = document.createElement("option");
-        option.textContent =  i;
-        nbJours.appendChild(option);
-    }
-}
 
 // Bloquer l'entrée des lettres et des caractères spéciaux
 codePostalInput.addEventListener('keydown', function(event) {
@@ -207,20 +205,17 @@ codePostalInput.addEventListener("input", async function() {
         console.log(codes)
         valeursCommune = codes ;
         menuDeroulant.style.display = "block";
-        nbJours.style.display = "block";
         validerBtn.style.display="block";
         checkboxes.style.display = "block";
         openModalBtn.style.display="block";
         openModalBtn.style.margin = "20px auto";
         // Mettre à jour le menu déroulant avec les options (actuellement vide)
         mettreAJourMenu(valeursCommune);  // Utilise les données du tableau 
-        mettreAJournbJours();
     } else {
         menuDeroulant.style.display = "none";
         openModalBtn.style.display="none";
         validerBtn.style.display="none";
         nvRech.style.display="none";
-        nbJours.style.display = "none";
         checkboxes.style.display = "none";
     }
 });
@@ -235,7 +230,6 @@ validerBtn.addEventListener("click",async function() {
         nvRech.style.display="block";
         validerBtn.style.display="none";
         menuDeroulant.style.display = "none";
-        nbJours.style.display = "none";
         checkboxes.style.display = "none";
         openModalBtn.style.display="none";
         codePostalInput.style.display="none";
@@ -249,7 +243,6 @@ nvRech.addEventListener("click", async function(){
     nvRech.style.display="none";
     validerBtn.style.display="none";
     codePostalInput.value="";
-    nbJours.style.display = "none";
     ville.innerText = ""; 
     ville.style.display="none";
     codePostalInput.style.display="block";

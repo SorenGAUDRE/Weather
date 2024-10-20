@@ -22,10 +22,60 @@ h1 {
     margin: 0;
 }
 
+.slider-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+input[type="range"] {
+    width: 300px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #007BFF;
+    height: 5px;
+    border-radius: 5px;
+    outline: none;
+    margin-top: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+    border: 2px solid #007BFF;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+    border: 2px solid #007BFF;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider-values {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.slider-values span {
+    font-size: 1rem;
+    color: #007BFF;
+}
+
 .forecast-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    max-width: 1500px; /* Limite la largeur totale à 1000px */
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 20px;
 }
 
@@ -87,19 +137,6 @@ input[type="text"]::placeholder {
     margin-bottom: 5%;
 }
 
-#nbJours {
-    display: none;
-    padding: 10px;
-    font-size: 1rem;
-    width: 300px;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin: auto;
-    margin-top: 5%;
-    margin-bottom: 5%;
-}
 
 .checkboxes {
     display: none; /* Cacher les cases à cocher par défaut */
@@ -168,6 +205,7 @@ input[type="text"]::placeholder {
     font-size: 1rem;
     margin: auto;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #nv_rech:hover {
@@ -238,6 +276,7 @@ input[type="text"]::placeholder {
     border: none;                  
     cursor: pointer;              
     padding: 0;
+    display: none;
 }
 
 .settings i {

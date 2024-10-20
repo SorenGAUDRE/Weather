@@ -17,15 +17,12 @@
         <p id="subtitles">Votre météo en un instant avec Instant Weather</p>
         
         <!-- Formulaire du code postal -->
-        <input type="text" id="postal-code" name="postal-code" placeholder="Entrer un code postal"  maxlength="5"/>
+        <input type="text" id="postal-code" name="postal-code" placeholder="Entrer un code postal"  maxlength="5">
         
         <!-- Menu déroulant pour choisir la commune -->
         <div class="menu-container">
             <select id="menuDeroulant">
                 <option disabled selected>Choisissez une ville</option>
-            </select>
-            <select id="nbJours">
-                <option disabled selected>Choisissez un nombre de jours</option>
             </select>
         </div>
         <button id="openModalBtn" class="settings">
@@ -37,7 +34,12 @@
           <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Options</h2>
-            
+            <div class="slider-container">
+              <label for="nbJoursSlider">Choisir un nombre de jours :</label>
+              <input type="range" id="nbJoursSlider" min="1" max="7" value="1" step="1" oninput="updateSliderValue(this.value)">
+            </div>
+             <!-- Nouveau slider pour choisir le nombre de jours -->
+            <p id="sliderValue">Nombre de jours sélectionnés : 1</p>
             <!-- Formulaire de cases à cocher -->
             <form id="checkboxes">
               <label><input type="checkbox" id="latitude"> Latitude décimale de la commune</label><br>
@@ -64,14 +66,7 @@
 
         <!-- Bouton de nouvelle recherche -->
         <button id="nv_rech">Nouvelle recherche</button>
-    </div>
-
-<div>
-
-  <img src="icons/day.svg" alt="Icône du temps ensoleillé">
-
-</div>
-    
+    </div>   
 
 
 
