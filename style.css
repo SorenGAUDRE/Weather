@@ -3,15 +3,18 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Alignement en haut de l'écran */
     height: 100vh;
     background-color: #a8d8ff;
     font-family: Arial, sans-serif;
 }
 
+/* Ajouter un padding en haut pour éviter que le haut soit coupé */
 .container {
     text-align: center;
+    padding-top: 20px; /* Ajouter un espace pour éviter la coupe du haut */
 }
+
 
 h1 {
     font-size: 4rem;
@@ -268,53 +271,71 @@ button[type="submit"]:active {
     background-color: #003f7f; 
     box-shadow: none; 
 }
-@media (max-width: 600px) {
-    button[type="submit"] {
-        padding: 10px 20px; /* Réduire le padding pour les petits écrans */
-        font-size: 14px; /* Réduire la taille de la police */
-    }
-}
 
-@media (max-width: 600px) {
+
+/* For Tablets (landscape and portrait) */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 3rem; /* Reduce title size on tablets */
+    }
+    
+    input[type="text"], #menuDeroulant, #nbJours {
+        width: 250px; /* Make inputs smaller for tablets */
+    }
+
+    .weather-card {
+        width: 220px; /* Adjust card width for better display on tablets */
+    }
+
     .modal-content {
-        width: 90%; /* Utiliser 90% de la largeur de l'écran pour les petits appareils */
-        padding: 20px; /* Réduire le padding */
-    }
-
-    .modal {
-        padding: 20px; /* Un peu d'espace sur les côtés */
-    }
-
-    .close {
-        font-size: 24px; /* Taille de police réduite pour le bouton de fermeture */
+        width: 80%; /* Slightly larger modals for tablets */
     }
 }
 
+/* For Mobile devices */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5rem; /* Reduce title size further for mobile */
+    }
 
-/* Media Query pour les petits écrans */
+    input[type="text"], #menuDeroulant, #nbJours {
+        width: 200px; /* Adjust input width for smaller screens */
+    }
+
+    .weather-card {
+        width: 180px; /* Smaller cards on mobile */
+        padding: 15px; /* Adjust padding */
+    }
+
+    .modal-content {
+        width: 90%; /* Make the modal content take more space on mobile */
+        padding: 15px; /* Reduce padding for mobile */
+    }
+
+    .settings i {
+        font-size: 24px; /* Reduce size of settings icon */
+    }
+
+    button {
+        font-size: 0.9rem; /* Reduce button text size */
+        padding: 8px 15px; /* Smaller padding for buttons */
+    }
+}
+
 @media (max-width: 600px) {
     body {
-        margin: 0; /* Supprimer les marges du corps */
-        padding: 0; /* Supprimer les paddings du corps */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Alignement en haut de l'écran */
+        background-color: #a8d8ff;
     }
 
-    header {
-        height: auto; /* Ajuster la hauteur de l'en-tête */
-        padding: 10px; /* Ajuster le padding de l'en-tête */
-        text-align: center; /* Centrer le texte dans l'en-tête */
-    }
-
-    .modal-content {
-        width: 90%; /* Utiliser 90% de la largeur de l'écran pour les petits appareils */
-        padding: 20px; /* Réduire le padding */
-    }
-
-    button[type="submit"] {
-        padding: 10px 20px; /* Réduire le padding pour les petits écrans */
-        font-size: 14px; /* Réduire la taille de la police */
-    }
-
-    .close {
-        font-size: 24px; /* Réduire la taille du bouton de fermeture */
+    .container {
+        padding-top: 20px; /* Ajouter un espace en haut pour les petits écrans */
     }
 }
+
+
+
