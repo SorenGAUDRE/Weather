@@ -17,16 +17,18 @@
         <p id="subtitles">Votre météo en un instant avec Instant Weather</p>
         
         <!-- Formulaire du code postal -->
+        <label for="postal-code" class="unwanted">Code postal :</label>
         <input type="text" id="postal-code" name="postal-code" placeholder="Entrer un code postal"  maxlength="5">
         
         <!-- Menu déroulant pour choisir la commune -->
         <div class="menu-container">
+          <label for="menuDeroulant" class="unwanted">Choisir une ville :</label>
             <select id="menuDeroulant">
                 <option disabled selected>Choisissez une ville</option>
             </select>
         </div>
         <button id="openModalBtn" class="settings">
-            <i class="fas fa-cog"></i>
+            <em class="fas fa-cog"></em>
         </button>
         
         <!-- La boîte modale -->
@@ -42,15 +44,16 @@
             <p id="sliderValue">Nombre de jours sélectionnés : 1</p>
             <!-- Formulaire de cases à cocher -->
             <form id="checkboxes">
-              <label><input type="checkbox" id="latitude"> Latitude décimale de la commune</label><br>
-              <label><input type="checkbox" id="longitude"> Longitude décimale de la commune</label><br>
-              <label><input type="checkbox" id="cumul-pluie"> Cumul de pluie sur la journée en mm</label><br>
-              <label><input type="checkbox" id="vent"> Vent moyen à 10 mètres en km/h</label><br>
-              <label><input type="checkbox" id="direction-vent"> Direction du vent en degrés (0 à 360°)</label><br>
-              
-              <!-- Bouton de soumission -->
+              <fieldset>
+                  <legend>Options Météo</legend>
+                  <label><input type="checkbox" id="latitude"> Latitude décimale de la commune</label><br>
+                  <label><input type="checkbox" id="longitude"> Longitude décimale de la commune</label><br>
+                  <label><input type="checkbox" id="cumul-pluie"> Cumul de pluie sur la journée en mm</label><br>
+                  <label><input type="checkbox" id="vent"> Vent moyen à 10 mètres en km/h</label><br>
+                  <label><input type="checkbox" id="direction-vent"> Direction du vent en degrés (0 à 360°)</label><br>
+              </fieldset>
               <button type="submit">Valider</button>
-            </form>
+          </form>
           </div>
         </div>
 

@@ -137,6 +137,10 @@ input[type="text"]::placeholder {
     margin-bottom: 5%;
 }
 
+.unwanted{
+    display: none;
+}
+
 
 .checkboxes {
     display: none; /* Cacher les cases à cocher par défaut */
@@ -279,12 +283,12 @@ input[type="text"]::placeholder {
     display: none;
 }
 
-.settings i {
+.settings em {
     color: #fff; 
     font-size: 28px; 
 }
 
-.settings:hover i {
+.settings:hover em {
     color: #007bff; 
 }
 
