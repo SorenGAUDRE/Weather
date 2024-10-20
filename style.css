@@ -3,16 +3,15 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Alignement en haut de l'écran */
+    align-items: flex-start; 
     height: 100vh;
     background-color: #a8d8ff;
     font-family: Arial, sans-serif;
 }
 
-/* Ajouter un padding en haut pour éviter que le haut soit coupé */
 .container {
     text-align: center;
-    padding-top: 20px; /* Ajouter un espace pour éviter la coupe du haut */
+    padding-top: 20px; 
 }
 
 
@@ -73,7 +72,7 @@ input[type="range"]::-moz-range-thumb {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    max-width: 1500px; /* Limite la largeur totale à 1000px */
+    max-width: 1500px; 
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
@@ -124,7 +123,7 @@ input[type="text"]::placeholder {
 
 
 #menuDeroulant {
-    display: none; /* Le menu est caché par défaut */
+    display: none;
     padding: 10px;
     font-size: 1rem;
     width: 300px;
@@ -143,7 +142,7 @@ input[type="text"]::placeholder {
 
 
 .checkboxes {
-    display: none; /* Cacher les cases à cocher par défaut */
+    display: none;
     text-align: left;
     margin: 20px auto;
     max-width: 300px;
@@ -160,8 +159,8 @@ input[type="text"]::placeholder {
 
 .checkboxes label input[type="checkbox"] {
     margin-right: 10px;
-    transform: scale(1.2); /* Agrandit la case à cocher */
-    accent-color: #007BFF; /* Couleur de la case à cocher */
+    transform: scale(1.2); 
+    accent-color: #007BFF; 
 }
 
 
@@ -246,7 +245,6 @@ input[type="text"]::placeholder {
     background-color: rgba(0, 0, 0, 0.6); 
 }
 
-/* Contenu de la modal */
 .modal-content {
     background-color: #e3f2fd; 
     margin: 10% auto; 
@@ -316,52 +314,52 @@ button[type="submit"]:active {
 }
 
 
-/* For Tablets (landscape and portrait) */
+
 @media (max-width: 1024px) {
     h1 {
-        font-size: 3rem; /* Reduce title size on tablets */
+        font-size: 3rem; 
     }
     
     input[type="text"], #menuDeroulant, #nbJours {
-        width: 250px; /* Make inputs smaller for tablets */
+        width: 250px; 
     }
 
     .weather-card {
-        width: 220px; /* Adjust card width for better display on tablets */
+        width: 220px; 
     }
 
     .modal-content {
-        width: 80%; /* Slightly larger modals for tablets */
+        width: 80%; 
     }
 }
 
-/* For Mobile devices */
+
 @media (max-width: 600px) {
     h1 {
-        font-size: 2.5rem; /* Reduce title size further for mobile */
+        font-size: 2.5rem; 
     }
 
     input[type="text"], #menuDeroulant, #nbJours {
-        width: 200px; /* Adjust input width for smaller screens */
+        width: 200px; 
     }
 
     .weather-card {
-        width: 180px; /* Smaller cards on mobile */
-        padding: 15px; /* Adjust padding */
+        width: 180px;
+        padding: 15px;
     }
 
     .modal-content {
-        width: 90%; /* Make the modal content take more space on mobile */
-        padding: 15px; /* Reduce padding for mobile */
+        width: 90%;
+        padding: 15px;
     }
 
     .settings i {
-        font-size: 24px; /* Reduce size of settings icon */
+        font-size: 24px;
     }
 
     button {
-        font-size: 0.9rem; /* Reduce button text size */
-        padding: 8px 15px; /* Smaller padding for buttons */
+        font-size: 0.9rem; 
+        padding: 8px 15px; 
     }
 }
 
@@ -371,12 +369,12 @@ button[type="submit"]:active {
         padding: 0;
         display: flex;
         justify-content: center;
-        align-items: flex-start; /* Alignement en haut de l'écran */
+        align-items: flex-start; 
         background-color: #a8d8ff;
     }
 
     .container {
-        padding-top: 20px; /* Ajouter un espace en haut pour les petits écrans */
+        padding-top: 20px; 
     }
 }
 

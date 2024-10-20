@@ -6,32 +6,33 @@
     <link rel="stylesheet" href="style.css">
     <title>Instant Weather</title>
 
-  <!-- ICONS links -->
+    <!-- Link to Font Awesome icons for settings -->
     <script src="https://kit.fontawesome.com/6f3103b13c.js" crossorigin="anonymous"></script>
-
-
 </head>
 <body>
+    <!-- Main container for the weather app -->
     <div class="container">
         <h1>Instant Weather</h1>
         <p id="subtitles">Votre météo en un instant avec Instant Weather</p>
         
-        <!-- Formulaire du code postal -->
+        <!-- Input for postal code -->
         <label for="postal-code" class="unwanted">Code postal :</label>
         <input type="text" id="postal-code" name="postal-code" placeholder="Entrer un code postal"  maxlength="5">
         
-        <!-- Menu déroulant pour choisir la commune -->
+        <!-- Dropdown for city selection -->
         <div class="menu-container">
           <label for="menuDeroulant" class="unwanted">Choisir une ville :</label>
             <select id="menuDeroulant">
                 <option disabled selected>Choisissez une ville</option>
             </select>
         </div>
+
+        <!-- Button to open settings modal -->
         <button id="openModalBtn" class="settings">
             <em class="fas fa-cog"></em>
         </button>
         
-        <!-- La boîte modale -->
+        <!-- Modal for settings -->
         <div id="myModal" class="modal">
           <div class="modal-content">
             <span class="close">&times;</span>
@@ -40,9 +41,9 @@
               <label for="nbJoursSlider">Choisir un nombre de jours :</label>
               <input type="range" id="nbJoursSlider" min="1" max="7" value="1" step="1" oninput="updateSliderValue(this.value)">
             </div>
-             <!-- Nouveau slider pour choisir le nombre de jours -->
             <p id="sliderValue">Nombre de jours sélectionnés : 1</p>
-            <!-- Formulaire de cases à cocher -->
+
+            <!-- Weather options checkboxes -->
             <form id="checkboxes">
               <fieldset>
                   <legend>Options Météo</legend>
@@ -53,32 +54,26 @@
                   <label for="direction-vent"><input type="checkbox" id="direction-vent"> Direction du vent en degrés (0 à 360°)</label><br>
               </fieldset>
               <button type="submit">Valider</button>
-          </form>
+            </form>
           </div>
         </div>
 
-        <!-- Affichage de la ville choisie -->
+        <!-- Display chosen city -->
         <p id="ville"></p>
 
-        <!-- Nouveau bouton "Validez" sous le menu déroulant -->
+        <!-- Button to confirm city selection -->
         <button id="valider-btn">Valider</button>
         <br>
         
-        <!-- Bloc pour les statistiques météorologiques -->
+        <!-- Container to display weather forecast -->
         <div id="forecast-container" class="forecast-container"></div>
 
-        <!-- Bouton de nouvelle recherche -->
+        <!-- Button to start a new search -->
         <button id="nv_rech">Nouvelle recherche</button>
-    </div>   
+    </div>
 
-
-
+    <!-- JavaScript files -->
     <script src="script.js"></script>
     <script src="icons.js"></script>
-
-  </body>
-  
-  </html>
-  
-
-
+</body>
+</html>

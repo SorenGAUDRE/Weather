@@ -1,7 +1,10 @@
-const token = 'cf7c01dc60d6008455c0c8715a6337e049478ae675a65ab7287e7bf76b1dd5d7'
+// API token for authentication
+const token = 'cf7c01dc60d6008455c0c8715a6337e049478ae675a65ab7287e7bf76b1dd5d7';
+
+// HTML element references
 const codePostalInput = document.getElementById("postal-code");
 const menuDeroulant = document.getElementById("menuDeroulant");
-const regexCodePostal = /^\d{5}$/;
+const regexCodePostal = /^\d{5}$/; // Regular expression to validate postal codes
 const validerBtn = document.getElementById("valider-btn");
 const tmin = document.getElementById("temp-min");
 const tmax = document.getElementById("temp-max");
@@ -19,32 +22,35 @@ const forecastContainer = document.getElementById("forecast-container");
 const modal = document.getElementById("myModal");
 const openModalBtn = document.getElementById("openModalBtn");
 const closeModalBtn = document.getElementsByClassName("close")[0];
-const nbJoursSlider = document.getElementById("nbJoursSlider"); // Sélection du slider
-const sliderValueDisplay = document.getElementById("sliderValue"); // Pour afficher la valeur sélectionnée
+const nbJoursSlider = document.getElementById("nbJoursSlider"); // Slider to choose the number of forecast days
+const sliderValueDisplay = document.getElementById("sliderValue"); // Display the selected number of days
 
-
+// Class representing a weather card
 class WeatherCard {
     constructor(day, tmin, tmax, rainProba, weatherCode, sunshine, extraInfo = '') {
-        this.day = day;
-        this.tmin = tmin;
-        this.tmax = tmax;
-        this.rainProba = rainProba;
-        this.sunshine = sunshine;
-        this.weatherCode = weatherCode;
-        this.extraInfo = extraInfo;
+        this.day = day; // Day of forecast
+        this.tmin = tmin; // Minimum temperature
+        this.tmax = tmax; // Maximum temperature
+        this.rainProba = rainProba; // Rain probability
+        this.sunshine = sunshine; // Hours of sunshine
+        this.weatherCode = weatherCode; // Weather code (used to select an icon)
+        this.extraInfo = extraInfo; // Additional info (e.g., latitude, wind)
     }
 
+    // Get the corresponding weather icon based on the weather code
     getWeatherIcon() {
-        const iconFile = iconMap[this.weatherCode] || 'day.svg';  // Icône par défaut: journée ensoleillée
+        const iconFile = iconMap[this.weatherCode] || 'day.svg';  // Default icon is sunny
         return `<img src="icons/${iconFile}" alt="Weather Icon" class="weather-icon">`;
     }
 
+    // Create and return the HTML structure for the weather card
     createCard() {
         const card = document.createElement('div');
         card.className = 'weather-card';
 
         const weatherIcon = this.getWeatherIcon();
         
+        // Set the content of the weather card
         card.innerHTML = `
             <h3>${this.day}</h3>
             <div>${weatherIcon}</div> 
@@ -58,62 +64,53 @@ class WeatherCard {
     }
 }
 
-
-
-// Fonction pour récupérer les communes en fonction d'un code postal
+// Fetch the list of communes based on the postal code
 async function getCommunesByPostalCode(codePostal) {
     const url = `https://geo.api.gouv.fr/communes?codePostal=${codePostal}`;
     let tab = []
     try {
-        const response = await fetch(url);
-        const data = await response.json();
-            console.log("Communes:", data); // Affiche les communes dans la console
-            tab = data.map(commune => commune.nom);
-        console.log("Noms des communes:", tab);
-        
-        return tab; // Retourne le tableau des noms)
-            
-        
-        }
-        catch{(error => console.error("Erreur lors de la récupération des communes:", error))};      
-        
+        const response = await fetch(url); // Fetch data from the API
+        const data = await response.json(); // Convert the response to JSON
+        tab = data.map(commune => commune.nom); // Extract the names of the communes
+        return tab; // Return the array of commune names
+    }
+    catch(error) {
+        console.error("Erreur lors de la récupération des communes:", error); // Handle errors
+    }
 }
 
+// Fetch the INSEE code of a commune by its name
 async function getCommunesByName(name) {
-    const url = `https://api.meteo-concept.com/api/location/cities?token=cf7c01dc60d6008455c0c8715a6337e049478ae675a65ab7287e7bf76b1dd5d7&search=${name}`;
+    const url = `https://api.meteo-concept.com/api/location/cities?token=${token}&search=${name}`;
     try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data.cities[0].insee)
-        return data.cities[0].insee; // Retourne le tableau des noms)
-        
-        }
-        catch{(error => console.error("Erreur lors de la récupération des communes:", error))};      
-        
+        const response = await fetch(url); // Fetch data
+        const data = await response.json(); // Convert response to JSON
+        return data.cities[0].insee; // Return the INSEE code
+    }
+    catch(error) {
+        console.error("Erreur lors de la récupération des communes:", error); // Handle errors
+    }
 }
 
+// Fetch weather data for a city using its INSEE code
 async function getMeteoData(code, i) {
-        
-    const urlmeteo = `https://api.meteo-concept.com/api/forecast/daily?token=cf7c01dc60d6008455c0c8715a6337e049478ae675a65ab7287e7bf76b1dd5d7&insee=${code}`;
+    const urlmeteo = `https://api.meteo-concept.com/api/forecast/daily?token=${token}&insee=${code}`;
     try {
-        const response = await fetch(urlmeteo);
-        const data = await response.json();
-        console.log(data)
-        return data.forecast[i];
-        }   
-        
-        catch{(error => console.error("Erreur lors de la récupération des temps:", error))}
-
-    
+        const response = await fetch(urlmeteo); // Fetch weather data
+        const data = await response.json(); // Convert response to JSON
+        return data.forecast[i]; // Return the forecast for the specified day
+    }
+    catch(error) {
+        console.error("Erreur lors de la récupération des temps:", error); // Handle errors
+    }
 }
 
-
-// Fonction pour mettre à jour la valeur affichée du slider
+// Update the displayed slider value
 function updateSliderValue(value) {
     sliderValueDisplay.innerText = `Nombre de jours sélectionnés : ${value}`;
 }
 
-// Fonction d'affichage des informations météo
+// Display weather information based on the selected city and number of days
 async function afficherInformations() {
     let selectedCommune = menuDeroulant.value;
     if (!selectedCommune) {
@@ -122,15 +119,14 @@ async function afficherInformations() {
     }
 
     const insee = await getCommunesByName(selectedCommune);
-    forecastContainer.innerHTML = '';  // Vider les résultats précédents
+    forecastContainer.innerHTML = '';  // Clear previous results
 
-    // Récupération de la valeur du slider
-    const nbJoursValue = parseInt(nbJoursSlider.value, 10);
+    const nbJoursValue = parseInt(nbJoursSlider.value, 10); // Get the number of forecast days
 
     for (let j = 0; j < nbJoursValue; j++) {
-        const meteoData = await getMeteoData(insee, j);
+        const meteoData = await getMeteoData(insee, j); // Get weather data for each day
 
-        let extraInfo = '';
+        let extraInfo = ''; // Collect additional information if checkboxes are checked
         if (latitude.checked) {
             extraInfo += `<p><strong>Latitude :</strong> ${meteoData.latitude}</p>`;
         }
@@ -147,7 +143,7 @@ async function afficherInformations() {
             extraInfo += `<p><strong>Direction du vent :</strong> ${meteoData.dirwind10m}°</p>`;
         }
 
-        // Crée une nouvelle carte météo et l'ajoute au conteneur
+        // Create and display the weather card
         const date = new Date();
         date.setDate(date.getDate() + j);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -156,127 +152,111 @@ async function afficherInformations() {
     }
 }
 
-
-
- 
-// Fonction pour mettre à jour les options du menu déroulant <select>
+// Update the drop-down menu with city options
 function mettreAJourMenu(valeurs) {
-    // Efface les anciennes options
-    menuDeroulant.innerHTML = '<option disabled selected>Choisissez une ville</option>';
+    menuDeroulant.innerHTML = '<option disabled selected>Choisissez une ville</option>'; // Reset menu
 
-    // Si le tableau est vide, ajoute une option "Aucune option"
-    if (valeurs.length === 0) {
+    if (valeurs.length === 0) { // If no cities are available, show a placeholder
         const option = document.createElement("option");
         option.textContent = "Aucune option disponible";
-        option.disabled = true; // Désactiver l'option
+        option.disabled = true; // Disable the option
         menuDeroulant.appendChild(option);
     } else {
-        // Ajoute chaque valeur comme une option dans le menu déroulant
-        valeurs.forEach(valeur => {
+        valeurs.forEach(valeur => { // Add each city as an option
             const option = document.createElement("option");
             option.textContent = valeur;
-            option.value = valeur; // La valeur de l'option
+            option.value = valeur;
             menuDeroulant.appendChild(option);
         });
     }
 }
 
-
-// Bloquer l'entrée des lettres et des caractères spéciaux
+// Prevent non-numeric input in the postal code field
 codePostalInput.addEventListener('keydown', function(event) {
     const key = event.key;
 
-    // Autoriser uniquement les touches numériques, Backspace, Tab, et les flèches
+    // Allow only numeric input, backspace, tab, and arrow keys
     if (!/^[0-9]$/.test(key) &&
         key !== 'Backspace' &&
         key !== 'Tab' &&
         key !== 'ArrowLeft' &&
         key !== 'ArrowRight') {
-        event.preventDefault(); // Empêcher l'entrée de caractères non autorisés
+        event.preventDefault(); // Block other inputs
     }
 });
 
-
+// Fetch and display city options when a valid postal code is entered
 codePostalInput.addEventListener("input", async function() {
     const codePostal = codePostalInput.value;
-    // Si l'input correspond à un code postal valide
-    if (regexCodePostal.test(codePostal)) {
-        const codes = await getCommunesByPostalCode(codePostal)
-        console.log(codes)
-        valeursCommune = codes ;
+
+    if (regexCodePostal.test(codePostal)) { // Validate the postal code
+        const codes = await getCommunesByPostalCode(codePostal);
+
+        valeursCommune = codes;
         menuDeroulant.style.display = "block";
-        validerBtn.style.display="block";
+        validerBtn.style.display = "block";
         checkboxes.style.display = "block";
-        openModalBtn.style.display="block";
+        openModalBtn.style.display = "block";
         openModalBtn.style.margin = "20px auto";
-        // Mettre à jour le menu déroulant avec les options (actuellement vide)
-        mettreAJourMenu(valeursCommune);  // Utilise les données du tableau 
+        mettreAJourMenu(valeursCommune);  // Update the drop-down menu with city options
     } else {
-        menuDeroulant.style.display = "none";
-        openModalBtn.style.display="none";
-        validerBtn.style.display="none";
-        nvRech.style.display="none";
+        menuDeroulant.style.display = "none"; // Hide elements if the postal code is invalid
+        openModalBtn.style.display = "none";
+        validerBtn.style.display = "none";
+        nvRech.style.display = "none";
         checkboxes.style.display = "none";
     }
 });
 
-validerBtn.addEventListener("click",async function() {
-    if(menuDeroulant.selectedIndex==0){
+// Handle the "Validate" button click and display the forecast
+validerBtn.addEventListener("click", async function() {
+    if (menuDeroulant.selectedIndex == 0) {
         alert("Veuillez choisir une option");
-    }
-    else{
-        ville.innerText = menuDeroulant.value;
-        ville.style.display="block";
-        nvRech.style.display="block";
-        validerBtn.style.display="none";
+    } else {
+        ville.innerText = menuDeroulant.value; // Display the selected city
+        ville.style.display = "block";
+        nvRech.style.display = "block";
+        validerBtn.style.display = "none";
         menuDeroulant.style.display = "none";
         checkboxes.style.display = "none";
-        openModalBtn.style.display="none";
-        codePostalInput.style.display="none";
-        forecastContainer.style.display="flex";
-        await afficherInformations();
+        openModalBtn.style.display = "none";
+        codePostalInput.style.display = "none";
+        forecastContainer.style.display = "flex";
+        await afficherInformations(); // Display the weather forecast
     }
-})
+});
 
-nvRech.addEventListener("click", async function(){
+// Handle the "New Search" button click and reset the form
+nvRech.addEventListener("click", function() {
     menuDeroulant.style.display = "none";
-    nvRech.style.display="none";
-    validerBtn.style.display="none";
-    codePostalInput.value="";
-    ville.innerText = ""; 
-    ville.style.display="none";
-    codePostalInput.style.display="block";
-    codePostalInput.style.margin = "20px auto";
-    forecastContainer.style.display="none";
-})
+    nvRech.style.display = "none";
+    validerBtn.style.display = "none";
+    codePostalInput.value = "";
+    ville.innerText = "";
+    ville.style.display = "none";
+    codePostalInput.style.display = "block";
+    forecastContainer.style.display = "none";
+});
 
-// Ouvrir la modal quand l'utilisateur clique sur "Settings"
+// Show the modal when the settings button is clicked
 openModalBtn.addEventListener("click", function() {
     modal.style.display = "block";
 });
 
-// Fermer la modal quand l'utilisateur clique sur le bouton "X"
+// Close the modal when the close button is clicked
 closeModalBtn.addEventListener("click", function() {
     modal.style.display = "none";
 });
 
-// Fermer la modal quand l'utilisateur clique en dehors de la modal
+// Close the modal if the user clicks outside of it
 window.addEventListener("click", function(event) {
     if (event.target === modal) {
         modal.style.display = "none";
     }
 });
 
-// Empêcher le rechargement de la page lors de la soumission du formulaire
+// Prevent page reload on form submission
 checkboxes.addEventListener("submit", function(event) {
-    event.preventDefault(); // Empêcher le rafraîchissement de la page
-
-    
-    // Fermer la modal après la soumission si vous le souhaitez
-    modal.style.display = "none";
+    event.preventDefault(); // Stop the form from reloading the page
+    modal.style.display = "none"; // Optionally close the modal after form submission
 });
-  
-    
-
-
-    
