@@ -1,8 +1,8 @@
 // Mapping des codes météo avec les icônes correspondantes
 const iconMap = {
     0: 'day.svg',              // Soleil
-    1: 'cloud-day-1.svg',       // Peu nuageux
-    2: 'cloud-day-1.svg',       // Ciel voilé
+    1: 'cloudy-day-1.svg',       // Peu nuageux
+    2: 'cloudy-day-1.svg',       // Ciel voilé
     3: 'cloudy-day-2.svg',      // Nuageux
     4: 'cloudy.svg',            // Très nuageux
     5: 'cloudy.svg',            // Couvert
